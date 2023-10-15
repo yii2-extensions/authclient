@@ -420,7 +420,7 @@ abstract class OAuth1 extends BaseOAuth
             if (substr_compare($key, 'oauth', 0, 5)) {
                 continue;
             }
-            $headerParams[] = rawurlencode($key) . '="' . rawurlencode($value) . '"';
+            $headerParams[] = rawurlencode($key) . '="' . rawurlencode((string) $value) . '"';
         }
         if (!empty($headerParams)) {
             $header .= ' ' . implode(', ', $headerParams);
