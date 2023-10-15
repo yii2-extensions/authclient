@@ -451,6 +451,8 @@ class AuthAction extends Action
         // Get the access_token and save them to the session.
         if (($code = $request->get('code')) !== null) {
             $token = $client->fetchAccessToken($code);
+
+            /** @phpstan-ignore-next-line */
             if (!empty($token)) {
                 return $this->authSuccess($client);
             }

@@ -10,8 +10,8 @@ declare(strict_types=1);
 
 namespace yii\authclient;
 
+use InvalidArgumentException;
 use Yii;
-use yii\base\InvalidParamException;
 use yii\httpclient\Request;
 use yii\web\HttpException;
 
@@ -122,7 +122,7 @@ abstract class OAuth1 extends BaseOAuth
      * @param OAuthToken $requestToken OAuth request token.
      * @param array $params additional request params.
      *
-     * @throws InvalidParamException on failure.
+     * @throws InvalidArgumentException on failure.
      *
      * @return string authorize URL
      */
@@ -131,7 +131,7 @@ abstract class OAuth1 extends BaseOAuth
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
             if (!is_object($requestToken)) {
-                throw new InvalidParamException('Request token is required to build authorize URL!');
+                throw new InvalidArgumentException('Request token is required to build authorize URL!');
             }
         }
         $params['oauth_token'] = $requestToken->getToken();
@@ -147,7 +147,7 @@ abstract class OAuth1 extends BaseOAuth
      * @param string $oauthVerifier OAuth verifier.
      * @param array $params additional request params.
      *
-     * @throws InvalidParamException on failure.
+     * @throws InvalidArgumentException on failure.
      * @throws HttpException in case oauth token miss-matches request token.
      *
      * @return OAuthToken OAuth access token.
@@ -163,7 +163,7 @@ abstract class OAuth1 extends BaseOAuth
         if (!is_object($requestToken)) {
             $requestToken = $this->getState('requestToken');
             if (!is_object($requestToken)) {
-                throw new InvalidParamException('Request token is required to fetch access token!');
+                throw new InvalidArgumentException('Request token is required to fetch access token!');
             }
         }
 

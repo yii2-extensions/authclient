@@ -482,6 +482,7 @@ class OpenId extends BaseClient
                 }
             }
 
+            /** @phpstan-ignore-next-line */
             if (!isset($content)) {
                 $content = $this->sendRequest($url, 'GET');
             }
@@ -589,11 +590,17 @@ class OpenId extends BaseClient
                 $params['openid.ax.count.' . $alias] = $count;
             }
 
-            // Don't send empty ax.required and ax.if_available.
-            // Google and possibly other providers refuse to support ax when one of these is empty.
+            /**
+             * Don't send empty ax.required and ax.if_available.
+             * Google and possibly other providers refuse to support ax when one of these is empty.
+             *
+             * @phpstan-ignore-next-line
+             */
             if (!empty($requiredAttributes)) {
                 $params['openid.ax.required'] = implode(',', $requiredAttributes);
             }
+
+            /** @phpstan-ignore-next-line */
             if (!empty($optionalAttributes)) {
                 $params['openid.ax.if_available'] = implode(',', $optionalAttributes);
             }

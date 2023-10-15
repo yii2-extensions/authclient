@@ -138,8 +138,6 @@ class OAuthToken extends BaseObject
      * Sets token value.
      *
      * @param string $token token value.
-     *
-     * @return $this the object itself
      */
     public function setToken($token)
     {

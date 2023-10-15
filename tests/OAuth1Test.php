@@ -99,24 +99,28 @@ class OAuth1Test extends TestCase
         $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
 
         $request = $oauthClient->createRequest();
+        $request->setUrl('https://yiiframework.com/');
         $request->setMethod('GET');
         $oauthClient->signRequest($request);
         $this->assertEmpty($request->getHeaders()->get('Authorization'));
 
         $oauthClient->authorizationHeaderMethods = ['GET'];
         $request = $oauthClient->createRequest();
+        $request->setUrl('https://yiiframework.com/');
         $request->setMethod('GET');
         $oauthClient->signRequest($request);
         $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
 
         $oauthClient->authorizationHeaderMethods = null;
         $request = $oauthClient->createRequest();
+        $request->setUrl('https://yiiframework.com/');
         $request->setMethod('GET');
         $oauthClient->signRequest($request);
         $this->assertNotEmpty($request->getHeaders()->get('Authorization'));
 
         $oauthClient->authorizationHeaderMethods = [];
         $request = $oauthClient->createRequest();
+        $request->setUrl('https://yiiframework.com/');
         $request->setMethod('POST');
         $oauthClient->signRequest($request);
         $this->assertEmpty($request->getHeaders()->get('Authorization'));

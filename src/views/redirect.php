@@ -1,9 +1,15 @@
 <?php
+
+declare(strict_types=1);
+
+use \yii\base\View;
 use yii\helpers\Json;
 
-/* @var $this \yii\base\View */
-/* @var $url string */
-/* @var $enforceRedirect bool */
+/**
+ * @var View $this
+ * @var string $url
+ * @var bool $enforceRedirect
+ */
 ?>
 <!DOCTYPE html>
 <html>
