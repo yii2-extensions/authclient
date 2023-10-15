@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -15,16 +18,17 @@ use yii\base\NotSupportedException;
  * > **Note:** This class requires PHP "Hash" extension(<https://php.net/manual/en/book.hash.php>).
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.1.3
  */
 class HmacSha extends BaseMethod
 {
     /**
      * @var string hash algorithm, e.g. `sha1`, `sha256` and so on.
+     *
      * @see https://php.net/manual/ru/function.hash-algos.php
      */
     public $algorithm;
-
 
     /**
      * {@inheritdoc}

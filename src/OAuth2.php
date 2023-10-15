@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -33,6 +36,7 @@ use yii\web\HttpException;
  * @see https://tools.ietf.org/html/rfc6749
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 abstract class OAuth2 extends BaseOAuth
@@ -59,22 +63,24 @@ abstract class OAuth2 extends BaseOAuth
      * state between the request and callback. The authorization server includes this value,
      * when redirecting the user-agent back to the client.
      * The option is used for preventing cross-site request forgery.
+     *
      * @since 2.1
      */
     public $validateAuthState = true;
     /**
      * @var bool Whether to enable proof key for code exchange (PKCE) support and add
      * a `code_challenge` and `code_verifier` to the auth request.
-     * @since 2.2.10
      *
+     * @since 2.2.10
      * @see https://oauth.net/2/pkce/
      */
     public $enablePkce = false;
 
-
     /**
      * Composes user authorization URL.
+     *
      * @param array $params additional auth GET params.
+     *
      * @return string authorization URL.
      */
     public function buildAuthUrl(array $params = [])
@@ -107,10 +113,13 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Fetches access token from authorization code.
+     *
      * @param string $authCode authorization code, usually comes at GET parameter 'code'.
      * @param array $params additional request params.
-     * @return OAuthToken access token.
+     *
      * @throws HttpException on invalid auth state in case [[enableStateValidation]] is enabled.
+     *
+     * @return OAuthToken access token.
      */
     public function fetchAccessToken($authCode, array $params = [])
     {
@@ -139,7 +148,7 @@ abstract class OAuth2 extends BaseOAuth
             ->setUrl($this->tokenUrl)
             ->setData(array_merge($defaultParams, $params));
 
-         // Azure AD will complain if there is no `Origin` header.
+        // Azure AD will complain if there is no `Origin` header.
         if ($this->enablePkce) {
             $request->addHeaders(['Origin' => Url::to('/')]);
         }
@@ -167,7 +176,9 @@ abstract class OAuth2 extends BaseOAuth
     /**
      * Applies client credentials (e.g. [[clientId]] and [[clientSecret]]) to the HTTP request instance.
      * This method should be invoked before sending any HTTP request, which requires client credentials.
+     *
      * @param \yii\httpclient\Request $request HTTP request instance.
+     *
      * @since 2.1.3
      */
     protected function applyClientCredentialsToRequest($request)
@@ -180,13 +191,15 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Gets new auth token to replace expired one.
+     *
      * @param OAuthToken $token expired auth token.
+     *
      * @return OAuthToken new auth token.
      */
     public function refreshAccessToken(OAuthToken $token)
     {
         $params = [
-            'grant_type' => 'refresh_token'
+            'grant_type' => 'refresh_token',
         ];
         $params = array_merge($token->getParams(), $params);
 
@@ -207,12 +220,14 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Generates the auth state value.
+     *
      * @return string auth state value.
+     *
      * @since 2.1
      */
     protected function generateAuthState()
     {
-        $baseString = get_class($this) . '-' . time();
+        $baseString = static::class . '-' . time();
         if (Yii::$app->has('session')) {
             $baseString .= '-' . Yii::$app->session->getId();
         }
@@ -221,7 +236,9 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Creates token from its configuration.
+     *
      * @param array $tokenConfig token configuration.
+     *
      * @return OAuthToken token instance.
      */
     protected function createToken(array $tokenConfig = [])
@@ -235,9 +252,13 @@ abstract class OAuth2 extends BaseOAuth
     /**
      * Authenticate OAuth client directly at the provider without third party (user) involved,
      * using 'client_credentials' grant type.
+     *
      * @see https://tools.ietf.org/html/rfc6749#section-4.4
+     *
      * @param array $params additional request params.
+     *
      * @return OAuthToken access token.
+     *
      * @since 2.1.0
      */
     public function authenticateClient($params = [])
@@ -267,11 +288,15 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Authenticates user directly by 'username/password' pair, using 'password' grant type.
+     *
      * @see https://tools.ietf.org/html/rfc6749#section-4.3
+     *
      * @param string $username user name.
      * @param string $password user password.
      * @param array $params additional request params.
+     *
      * @return OAuthToken access token.
+     *
      * @since 2.1.0
      */
     public function authenticateUser($username, $password, $params = [])
@@ -303,18 +328,21 @@ abstract class OAuth2 extends BaseOAuth
 
     /**
      * Authenticates user directly using JSON Web Token (JWT).
+     *
      * @see https://tools.ietf.org/html/rfc7515
+     *
      * @param string $username
-     * @param \yii\authclient\signature\BaseMethod|array $signature signature method or its array configuration.
+     * @param array|\yii\authclient\signature\BaseMethod $signature signature method or its array configuration.
      * If empty - [[signatureMethod]] will be used.
      * @param array $options additional options. Valid options are:
      *
      * - header: array, additional JWS header parameters.
      * - payload: array, additional JWS payload (message or claim-set) parameters.
      * - signatureKey: string, signature key to be used, if not set - [[clientSecret]] will be used.
-     *
      * @param array $params additional request params.
+     *
      * @return OAuthToken access token.
+     *
      * @since 2.1.3
      */
     public function authenticateUserJwt($username, $signature = null, $options = [], $params = [])
@@ -327,11 +355,11 @@ abstract class OAuth2 extends BaseOAuth
             $signatureMethod = $this->createSignatureMethod($signature);
         }
 
-        $header = isset($options['header']) ? $options['header'] : [];
-        $payload = isset($options['payload']) ? $options['payload'] : [];
+        $header = $options['header'] ?? [];
+        $payload = $options['payload'] ?? [];
 
         $header = array_merge([
-            'typ' => 'JWT'
+            'typ' => 'JWT',
         ], $header);
         if (!isset($header['alg'])) {
             $signatureName = $signatureMethod->getName();
@@ -353,7 +381,7 @@ abstract class OAuth2 extends BaseOAuth
         }
 
         $signatureBaseString = base64_encode(Json::encode($header)) . '.' . base64_encode(Json::encode($payload));
-        $signatureKey = isset($options['signatureKey']) ? $options['signatureKey'] : $this->clientSecret;
+        $signatureKey = $options['signatureKey'] ?? $this->clientSecret;
         $signature = $signatureMethod->generateSignature($signatureBaseString, $signatureKey);
 
         $assertion = $signatureBaseString . '.' . $signature;

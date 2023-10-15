@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\signature\PlainText;
@@ -23,15 +25,14 @@ class BaseOAuthTest extends TestCase
 
     /**
      * Creates test OAuth client instance.
+     *
      * @return BaseOAuth oauth client.
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(BaseOAuth::class)
+        return $this->getMockBuilder(BaseOAuth::class)
             ->onlyMethods(['refreshAccessToken', 'applyAccessTokenToRequest', 'initUserAttributes'])
             ->getMock();
-
-        return $oauthClient;
     }
 
     // Tests :
@@ -59,7 +60,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthClient->apiBaseUrl, $actualHttpClient->baseUrl);
 
         $oauthClient->setHttpClient([
-            'transport' => 'yii\httpclient\CurlTransport'
+            'transport' => 'yii\httpclient\CurlTransport',
         ]);
         $this->assertEquals($oauthClient->apiBaseUrl, $oauthClient->getHttpClient()->baseUrl);
     }
@@ -88,7 +89,7 @@ class BaseOAuthTest extends TestCase
 
         $oauthClient->setAccessToken(['token' => 'token-mock']);
         $accessToken = $oauthClient->getAccessToken();
-        $this->assertTrue($accessToken instanceof OAuthToken);
+        $this->assertInstanceOf(OAuthToken::class, $accessToken);
         $this->assertEquals('token-mock', $accessToken->getToken());
 
         $oauthClient->setAccessToken(null);
@@ -111,7 +112,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthToken['token'], $oauthClient->getAccessToken()->getToken(), 'Unable to setup token as config!');
 
         $oauthSignatureMethod = [
-            'class' => 'yii\authclient\signature\PlainText'
+            'class' => 'yii\authclient\signature\PlainText',
         ];
         $oauthClient->setSignatureMethod($oauthSignatureMethod);
         $returnedSignatureMethod = $oauthClient->getSignatureMethod();
@@ -163,7 +164,6 @@ class BaseOAuthTest extends TestCase
      *
      * @param $responseStatusCode
      * @param $expectedException
-     * @return void
      */
     public function testSendRequest($responseStatusCode, $expectedException)
     {

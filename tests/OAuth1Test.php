@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth1;
@@ -16,13 +18,14 @@ class OAuth1Test extends TestCase
                     'hostInfo' => 'http://testdomain.com',
                     'scriptUrl' => '/index.php',
                 ],
-            ]
+            ],
         ];
         $this->mockApplication($config, '\yii\web\Application');
     }
 
     /**
      * Creates test OAuth1 client instance.
+     *
      * @return OAuth1 oauth client.
      */
     protected function createClient()
@@ -50,10 +53,10 @@ class OAuth1Test extends TestCase
             ->getMock();
         $oauthSignatureMethod->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('test'));
+            ->willReturn('test');
         $oauthSignatureMethod->expects($this->any())
             ->method('generateSignature')
-            ->will($this->returnArgument(0));
+            ->willReturnArgument(0);
 
         $oauthClient->setSignatureMethod($oauthSignatureMethod);
 
@@ -73,7 +76,7 @@ class OAuth1Test extends TestCase
                 'oauth_timestamp' => $signedParams['oauth_timestamp'],
                 'oauth_version' => $signedParams['oauth_version'],
                 's' => 'some',
-            ])
+            ]),
         ];
         $parts = array_map('rawurlencode', $parts);
         $expectedSignature = implode('&', $parts);

@@ -1,8 +1,8 @@
 <?php
 
-namespace yiiunit\extensions\authclient\traits;
+declare(strict_types=1);
 
-use yii\authclient\BaseOAuth;
+namespace yiiunit\extensions\authclient\traits;
 
 trait OAuthDefaultReturnUrlTestTrait
 {

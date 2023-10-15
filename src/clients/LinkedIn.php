@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -8,7 +11,6 @@
 namespace yii\authclient\clients;
 
 use yii\authclient\OAuth2;
-use yii\web\HttpException;
 use Yii;
 
 /**
@@ -39,6 +41,7 @@ use Yii;
  * @see https://developer.linkedin.com/docs/rest-api
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class LinkedIn extends OAuth2
@@ -57,6 +60,7 @@ class LinkedIn extends OAuth2
     public $apiBaseUrl = 'https://api.linkedin.com/v2';
     /**
      * @var array list of attribute names, which should be requested from API to initialize user attributes.
+     *
      * @since 2.0.4
      */
     public $attributeNames = [
@@ -64,7 +68,6 @@ class LinkedIn extends OAuth2
         'firstName',
         'lastName',
     ];
-
 
     /**
      * {@inheritdoc}
@@ -108,7 +111,6 @@ class LinkedIn extends OAuth2
             if (isset($emails['elements'][0]['handle~']['emailAddress'])) {
                 $attributes['email'] = $emails['elements'][0]['handle~']['emailAddress'];
             }
-
         }
 
         return $attributes;

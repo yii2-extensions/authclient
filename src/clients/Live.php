@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -36,6 +39,7 @@ use yii\authclient\OAuth2;
  * @see https://msdn.microsoft.com/en-us/library/live/hh243647.aspx
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class Live extends OAuth2
@@ -52,7 +56,6 @@ class Live extends OAuth2
      * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://apis.live.net/v5.0';
-
 
     /**
      * {@inheritdoc}

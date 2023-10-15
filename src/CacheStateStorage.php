@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -8,7 +11,6 @@
 namespace yii\authclient;
 
 use Yii;
-use yii\authclient\StateStorageInterface;
 use yii\caching\Cache;
 use yii\base\Component;
 use yii\di\Instance;
@@ -17,12 +19,11 @@ use yii\di\Instance;
  * CacheStateStorage provides Auth client state storage based in cache component.
  *
  * @see StateStorageInterface
- *
  */
 class CacheStateStorage extends Component implements StateStorageInterface
 {
     /**
-     * @var Cache|array|string cache object or the application component ID of the cache object to be used.
+     * @var array|Cache|string cache object or the application component ID of the cache object to be used.
      *
      * After the CacheStateStorage object is created, if you want to change this property,
      * you should only assign it with a cache object.
@@ -32,7 +33,6 @@ class CacheStateStorage extends Component implements StateStorageInterface
      */
     public $cache;
     public $prefix = 'cacheStorage';
-
 
     /**
      * {@inheritdoc}

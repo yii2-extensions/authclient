@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -36,6 +39,7 @@ use yii\authclient\OAuth2;
  * @see https://console.developers.google.com/project
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class Google extends OAuth2
@@ -52,7 +56,6 @@ class Google extends OAuth2
      * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://www.googleapis.com/oauth2/v1';
-
 
     /**
      * {@inheritdoc}

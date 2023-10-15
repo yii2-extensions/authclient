@@ -55,27 +55,27 @@ final class Data
             [
                 'http://domain.com/index.php?r=site%2Fauth&authclient=myclient',
                 'http://domain.com/index.php?r=site%2Fauth&authclient=myclient',
-                true
+                true,
             ],
             [
                 'http://domain.com/index.php?r=site%2Fauth&authclient=myclient',
                 'http://domain.com/index.php?r=site/auth&authclient=myclient',
-                true
+                true,
             ],
             [
                 'http://domain.com/index.php?r=site%2Fauth&authclient=myclient',
                 'http://domain.com/index.php?r=site/auth&authclient=myclient2',
-                false
+                false,
             ],
             [
                 'http://domain.com/index.php?r=site%2Fauth&authclient=myclient&custom=value',
                 'http://domain.com/index.php?r=site%2Fauth&custom=value&authclient=myclient',
-                true
+                true,
             ],
             [
                 'https://domain.com/index.php?r=site%2Fauth&authclient=myclient',
                 'http://domain.com/index.php?r=site%2Fauth&authclient=myclient',
-                false
+                false,
             ],
         ];
     }
@@ -89,7 +89,7 @@ final class Data
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'oauth_test_name_2' => 'oauth_test_value_2',
                 ],
-                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"']
+                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"'],
             ],
             [
                 'test_realm',
@@ -97,7 +97,7 @@ final class Data
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'oauth_test_name_2' => 'oauth_test_value_2',
                 ],
-                ['Authorization' => 'OAuth realm="test_realm", oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"']
+                ['Authorization' => 'OAuth realm="test_realm", oauth_test_name_1="oauth_test_value_1", oauth_test_name_2="oauth_test_value_2"'],
             ],
             [
                 '',
@@ -105,7 +105,7 @@ final class Data
                     'oauth_test_name_1' => 'oauth_test_value_1',
                     'test_name_2' => 'test_value_2',
                 ],
-                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1"']
+                ['Authorization' => 'OAuth oauth_test_name_1="oauth_test_value_1"'],
             ],
         ];
     }
@@ -166,8 +166,8 @@ final class Data
             [
                 [
                     'name' => function ($attributes) {
-                            return $attributes['firstName'] . ' ' . $attributes['lastName'];
-                        },
+                        return $attributes['firstName'] . ' ' . $attributes['lastName'];
+                    },
                 ],
                 [
                     'firstName' => 'John',
@@ -183,7 +183,7 @@ final class Data
                 ],
                 [
                     'emails' => [
-                        'prime' => 'some@email.com'
+                        'prime' => 'some@email.com',
                     ],
                 ],
                 [
@@ -227,6 +227,5 @@ final class Data
             'Client error' => [400, 'yii\\authclient\\ClientErrorResponseException'],
             'Server error' => [500, 'yii\\authclient\\InvalidResponseException'],
         ];
-
     }
 }

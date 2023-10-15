@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -40,6 +43,7 @@ use Yii;
  * @property string $trustRoot Client trust root (realm).
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class OpenId extends BaseClient
@@ -115,7 +119,6 @@ class OpenId extends BaseClient
      * @var string client trust root (realm), by default [[\yii\web\Request::hostInfo]] value will be used.
      */
     private $_trustRoot;
-
 
     /**
      * {@inheritdoc}
@@ -194,6 +197,7 @@ class OpenId extends BaseClient
 
     /**
      * Generates default [[returnUrl]] value.
+     *
      * @return string default authentication return URL.
      */
     protected function defaultReturnUrl()
@@ -213,7 +217,9 @@ class OpenId extends BaseClient
 
     /**
      * Checks if the server specified in the url exists.
+     *
      * @param string $url URL to check
+     *
      * @return bool true, if the server exists; false otherwise
      */
     public function hostExists($url)
@@ -233,11 +239,14 @@ class OpenId extends BaseClient
 
     /**
      * Sends request to the server
+     *
      * @param string $url request URL.
      * @param string $method request method.
      * @param array $params request parameters.
-     * @return array|string response.
+     *
      * @throws \yii\base\Exception on failure.
+     *
+     * @return array|string response.
      */
     protected function sendRequest($url, $method = 'GET', $params = [])
     {
@@ -248,7 +257,7 @@ class OpenId extends BaseClient
 
         if ($this->verifyPeer !== null) {
             $options = [
-                'sslVerifyPeer' => $this->verifyPeer
+                'sslVerifyPeer' => $this->verifyPeer,
             ];
             if ($this->capath) {
                 $options['sslCapath'] = $this->capath;
@@ -286,8 +295,10 @@ class OpenId extends BaseClient
 
     /**
      * Combines given URLs into single one.
+     *
      * @param string $baseUrl base URL.
-     * @param string|array $additionalUrl additional URL string or information array.
+     * @param array|string $additionalUrl additional URL string or information array.
+     *
      * @return string composed URL.
      */
     protected function buildUrl($baseUrl, $additionalUrl)
@@ -302,27 +313,27 @@ class OpenId extends BaseClient
         }
 
         $urlInfo = array_merge($baseUrl, $additionalUrl);
-        $url = $urlInfo['scheme'] . '://'
+        return $urlInfo['scheme'] . '://'
             . (empty($urlInfo['username']) ? ''
-                :(empty($urlInfo['password']) ? "{$urlInfo['username']}@"
-                    :"{$urlInfo['username']}:{$urlInfo['password']}@"))
+                : (empty($urlInfo['password']) ? "{$urlInfo['username']}@"
+                    : "{$urlInfo['username']}:{$urlInfo['password']}@"))
             . $urlInfo['host']
             . (empty($urlInfo['port']) ? '' : ":{$urlInfo['port']}")
             . (empty($urlInfo['path']) ? '' : $urlInfo['path'])
             . (empty($urlInfo['query']) ? '' : "?{$urlInfo['query']}")
             . (empty($urlInfo['fragment']) ? '' : "#{$urlInfo['fragment']}");
-
-        return $url;
     }
 
     /**
      * Scans content for <meta>/<link> tags and extract information from them.
+     *
      * @param string $content HTML content to be be parsed.
      * @param string $tag name of the source tag.
      * @param string $matchAttributeName name of the source tag attribute, which should contain $matchAttributeValue
      * @param string $matchAttributeValue required value of $matchAttributeName
      * @param string $valueAttributeName name of the source tag attribute, which should contain searched value.
-     * @return string|bool searched value, "false" on failure.
+     *
+     * @return bool|string searched value, "false" on failure.
      */
     protected function extractHtmlTagValue($content, $tag, $matchAttributeName, $matchAttributeValue, $valueAttributeName)
     {
@@ -335,7 +346,11 @@ class OpenId extends BaseClient
 
     /**
      * Performs Yadis and HTML discovery.
+     *
      * @param string $url Identity URL.
+     *
+     * @throws Exception on failure.
+     *
      * @return array OpenID provider info, following keys will be available:
      *
      * - url: string, OP Endpoint (i.e. OpenID provider address).
@@ -344,8 +359,6 @@ class OpenId extends BaseClient
      * - identifier_select: bool, whether to request OP to select identity for an user in OpenID 2, does not affect OpenID 1.
      * - ax: bool, whether AX attributes should be used.
      * - sreg: bool, whether SREG attributes should be used.
-     *
-     * @throws Exception on failure.
      */
     public function discover($url)
     {
@@ -402,7 +415,7 @@ class OpenId extends BaseClient
 
                         // OpenID 2
                         $ns = preg_quote('http://specs.openid.net/auth/2.0/');
-                        if (preg_match('#<Type>\s*'.$ns.'(server|signon)\s*</Type>#s', $content, $type)) {
+                        if (preg_match('#<Type>\s*' . $ns . '(server|signon)\s*</Type>#s', $content, $type)) {
                             if ($type[1] == 'server') {
                                 $result['identifier_select'] = true;
                             }
@@ -429,7 +442,7 @@ class OpenId extends BaseClient
 
                         // OpenID 1.1
                         $ns = preg_quote('http://openid.net/signon/1.1');
-                        if (preg_match('#<Type>\s*'.$ns.'\s*</Type>#s', $content)) {
+                        if (preg_match('#<Type>\s*' . $ns . '\s*</Type>#s', $content)) {
                             preg_match('#<URI.*?>(.*)</URI>#', $content, $server);
                             preg_match('#<.*?Delegate>(.*)</.*?Delegate>#', $content, $delegate);
                             if (empty($server)) {
@@ -503,6 +516,7 @@ class OpenId extends BaseClient
 
     /**
      * Composes SREG request parameters.
+     *
      * @return array SREG parameters.
      */
     protected function buildSregParams()
@@ -539,6 +553,7 @@ class OpenId extends BaseClient
 
     /**
      * Composes AX request parameters.
+     *
      * @return array AX parameters.
      */
     protected function buildAxParams()
@@ -589,7 +604,9 @@ class OpenId extends BaseClient
 
     /**
      * Builds authentication URL for the protocol version 1.
+     *
      * @param array $serverInfo OpenID server info.
+     *
      * @return string authentication URL.
      */
     protected function buildAuthUrlV1($serverInfo)
@@ -617,7 +634,9 @@ class OpenId extends BaseClient
 
     /**
      * Builds authentication URL for the protocol version 2.
+     *
      * @param array $serverInfo OpenID server info.
+     *
      * @return string authentication URL.
      */
     protected function buildAuthUrlV2($serverInfo)
@@ -642,7 +661,7 @@ class OpenId extends BaseClient
         if ($serverInfo['identifier_select']) {
             $url = 'http://specs.openid.net/auth/2.0/identifier_select';
             $params['openid.identity'] = $url;
-            $params['openid.claimed_id']= $url;
+            $params['openid.claimed_id'] = $url;
         } else {
             $params['openid.identity'] = $serverInfo['identity'];
             $params['openid.claimed_id'] = $this->getClaimedId();
@@ -653,9 +672,12 @@ class OpenId extends BaseClient
 
     /**
      * Returns authentication URL. Usually, you want to redirect your user to it.
+     *
      * @param bool $identifierSelect whether to request OP to select identity for an user in OpenID 2, does not affect OpenID 1.
-     * @return string the authentication URL.
+     *
      * @throws Exception on failure.
+     *
+     * @return string the authentication URL.
      */
     public function buildAuthUrl($identifierSelect = null)
     {
@@ -678,7 +700,9 @@ class OpenId extends BaseClient
 
     /**
      * Performs OpenID verification with the OP.
+     *
      * @param bool $validateRequiredAttributes whether to validate required attributes.
+     *
      * @return bool whether the verification was successful.
      */
     public function validate($validateRequiredAttributes = true)
@@ -723,16 +747,15 @@ class OpenId extends BaseClient
         if (preg_match('/is_valid\s*:\s*true/i', $response)) {
             if ($validateRequiredAttributes) {
                 return $this->validateRequiredAttributes();
-            } else {
-                return true;
             }
-        } else {
-            return false;
+            return true;
         }
+        return false;
     }
 
     /**
      * Checks if all required attributes are present in the server response.
+     *
      * @return bool whether all required attributes are present.
      */
     protected function validateRequiredAttributes()
@@ -751,6 +774,7 @@ class OpenId extends BaseClient
 
     /**
      * Gets AX attributes provided by OP.
+     *
      * @return array array of attributes.
      */
     protected function fetchAxAttributes()
@@ -795,6 +819,7 @@ class OpenId extends BaseClient
 
     /**
      * Gets SREG attributes provided by OP. SREG names will be mapped to AX names.
+     *
      * @return array array of attributes with keys being the AX schema names, e.g. 'contact/email'
      */
     protected function fetchSregAttributes()
@@ -823,7 +848,9 @@ class OpenId extends BaseClient
      * or that there will be no other attributes besides those specified.
      * In other words. OP may provide whatever information it wants to.
      * SREG names will be mapped to AX names.
+     *
      * @return array array of attributes with keys being the AX schema names, e.g. 'contact/email'
+     *
      * @see https://www.axschema.org/types/
      */
     public function fetchAttributes()
@@ -847,8 +874,10 @@ class OpenId extends BaseClient
 
     /**
      * Compares 2 URLs taking in account possible GET parameters order miss match and URL encoding inconsistencies.
+     *
      * @param string $expectedUrl expected URL.
      * @param string $actualUrl actual URL.
+     *
      * @return bool whether URLs are equal.
      */
     protected function compareUrl($expectedUrl, $actualUrl)

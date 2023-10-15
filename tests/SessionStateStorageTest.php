@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\SessionStateStorage;
@@ -10,7 +12,7 @@ class SessionStateStorageTest extends TestCase
     public function testSetState()
     {
         $storage = new SessionStateStorage([
-            'session' => Session::className()
+            'session' => Session::className(),
         ]);
 
         $key = 'test-key';

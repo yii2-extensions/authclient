@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -23,6 +26,7 @@ use yii\authclient\OAuth2;
  * @see https://dev.twitter.com/
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.1.4
  */
 class TwitterOAuth2 extends OAuth2
@@ -39,7 +43,6 @@ class TwitterOAuth2 extends OAuth2
      * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://api.twitter.com/1.1';
-
 
     /**
      * {@inheritdoc}
@@ -70,6 +73,6 @@ class TwitterOAuth2 extends OAuth2
      */
     public function applyAccessTokenToRequest($request, $accessToken)
     {
-        $request->getHeaders()->set('Authorization', 'Bearer '. $accessToken->getToken());
+        $request->getHeaders()->set('Authorization', 'Bearer ' . $accessToken->getToken());
     }
 }

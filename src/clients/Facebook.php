@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -40,6 +43,7 @@ use yii\authclient\OAuthToken;
  * @see https://developers.facebook.com/docs/reference/api
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class Facebook extends OAuth2
@@ -62,6 +66,7 @@ class Facebook extends OAuth2
     public $scope = 'email';
     /**
      * @var array list of attribute names, which should be requested from API to initialize user attributes.
+     *
      * @since 2.0.5
      */
     public $attributeNames = [
@@ -74,19 +79,20 @@ class Facebook extends OAuth2
     public $autoRefreshAccessToken = false; // Facebook does not provide access token refreshment
     /**
      * @var bool whether to automatically upgrade short-live (2 hours) access token to long-live (60 days) one, after fetching it.
+     *
      * @see exchangeToken()
      * @since 2.1.3
      */
     public $autoExchangeAccessToken = false;
     /**
      * @var string URL endpoint for the client auth code generation.
+     *
      * @see https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension
      * @see fetchClientAuthCode()
      * @see fetchClientAccessToken()
      * @since 2.1.3
      */
     public $clientAuthCodeUrl = 'https://graph.facebook.com/oauth/client_code';
-
 
     /**
      * {@inheritdoc}
@@ -156,9 +162,13 @@ class Facebook extends OAuth2
      * Exchanges short-live (2 hours) access token to long-live (60 days) one.
      * Note that this method will success for already long-live token, but will not actually prolong it any further.
      * Pay attention, that this method will fail on already expired access token.
+     *
      * @see https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension
+     *
      * @param OAuthToken $token short-live access token.
+     *
      * @return OAuthToken long-live access token.
+     *
      * @since 2.1.3
      */
     public function exchangeAccessToken(OAuthToken $token)
@@ -187,11 +197,15 @@ class Facebook extends OAuth2
      * Requests the authorization code for the client-specific access token.
      * This make sense for the distributed applications, which provides several Auth clients (web and mobile)
      * to avoid triggering Facebook's automated spam systems.
+     *
      * @see https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension
      * @see fetchClientAccessToken()
+     *
      * @param OAuthToken|null $token access token, if not set [[accessToken]] will be used.
      * @param array $params additional request params.
+     *
      * @return string client auth code.
+     *
      * @since 2.1.3
      */
     public function fetchClientAuthCode(OAuthToken $token = null, $params = [])
@@ -221,11 +235,15 @@ class Facebook extends OAuth2
      * Fetches access token from client-specific authorization code.
      * This make sense for the distributed applications, which provides several Auth clients (web and mobile)
      * to avoid triggering Facebook's automated spam systems.
+     *
      * @see https://developers.facebook.com/docs/facebook-login/access-tokens/expiration-and-extension
      * @see fetchClientAuthCode()
+     *
      * @param string $authCode client auth code.
      * @param array $params
+     *
      * @return OAuthToken long-live client-specific access token.
+     *
      * @since 2.1.3
      */
     public function fetchClientAccessToken($authCode, array $params = [])

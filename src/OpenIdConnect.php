@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -72,12 +75,14 @@ use yii\web\HttpException;
  * flow.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.1.3
  */
 class OpenIdConnect extends OAuth2
 {
     /**
      * @var array Predefined OpenID Connect Claims
+     *
      * @see https://openid.net/specs/openid-connect-core-1_0.html#rfc.section.2
      * @since 2.2.12
      */
@@ -118,11 +123,12 @@ class OpenIdConnect extends OAuth2
         'HS256', 'HS384', 'HS512',
         'ES256', 'ES384', 'ES512',
         'RS256', 'RS384', 'RS512',
-        'PS256', 'PS384', 'PS512'
+        'PS256', 'PS384', 'PS512',
     ];
     /**
      * @var string the prefix for the key used to store [[configParams]] data in cache.
      * Actual cache key will be formed addition [[id]] value to it.
+     *
      * @see cache
      */
     public $configParamsCacheKeyPrefix = 'config-params-';
@@ -155,7 +161,6 @@ class OpenIdConnect extends OAuth2
      * @var JWKSet Key Set
      */
     private $_jwkSet;
-
 
     /**
      * @return bool whether to use and validate auth 'nonce' parameter in authentication flow.
@@ -196,7 +201,8 @@ class OpenIdConnect extends OAuth2
      * - a [[\yii\caching\Cache]] object
      *
      * When `null` is passed, it means caching is not enabled.
-     * @param Cache|array|string|null $cache the cache object or the ID of the cache application component.
+     *
+     * @param array|Cache|string|null $cache the cache object or the ID of the cache application component.
      */
     public function setCache($cache)
     {
@@ -226,8 +232,10 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Returns particular configuration parameter value.
+     *
      * @param string $name configuration parameter name.
      * @param mixed $default value to be returned if the configuration parameter isn't set.
+     *
      * @return mixed configuration parameter value.
      */
     public function getConfigParam($name, $default = null)
@@ -238,8 +246,10 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Discovers OpenID Provider configuration parameters.
-     * @return array OpenID Provider configuration parameters.
+     *
      * @throws InvalidResponseException on failure.
+     *
+     * @return array OpenID Provider configuration parameters.
      */
     protected function discoverConfig()
     {
@@ -247,14 +257,15 @@ class OpenIdConnect extends OAuth2
         $configUrl = rtrim($this->issuerUrl, '/') . '/.well-known/openid-configuration';
         $request->setMethod('GET')
             ->setUrl($configUrl);
-        $response = $this->sendRequest($request);
-        return $response;
+        return $this->sendRequest($request);
     }
 
     /**
      * Set the OpenID provider configuration manually, this will bypass the automatic discovery via
      * the /.well-known/openid-configuration endpoint.
+     *
      * @param array $configParams OpenID provider configuration parameters.
+     *
      * @since 2.2.12
      */
     public function setConfigParams($configParams)
@@ -328,10 +339,9 @@ class OpenIdConnect extends OAuth2
             // The userinfo endpoint can return a JSON object (which will be converted to an array) or a JWT.
             if (is_array($userInfo)) {
                 return $userInfo;
-            } else {
-                // Use the userInfo endpoint as id_token and parse it as JWT below
-                $idToken = $userInfo;
             }
+            // Use the userInfo endpoint as id_token and parse it as JWT below
+            $idToken = $userInfo;
         } else {
             $accessToken = $this->accessToken;
             $idToken = $accessToken->getParam('id_token');
@@ -370,7 +380,7 @@ class OpenIdConnect extends OAuth2
 
         if (in_array('client_secret_basic', $supportedAuthMethods)) {
             $request->addHeaders([
-                'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret)
+                'Authorization' => 'Basic ' . base64_encode($this->clientId . ':' . $this->clientSecret),
             ]);
         } elseif (in_array('client_secret_post', $supportedAuthMethods)) {
             $request->addData([
@@ -419,9 +429,8 @@ class OpenIdConnect extends OAuth2
                 $authNonce = $this->getState('authNonce');
                 if (!isset($jwsData['nonce']) || empty($authNonce) || strcmp($jwsData['nonce'], $authNonce) !== 0) {
                     throw new HttpException(400, 'Invalid auth nonce');
-                } else {
-                    $this->removeState('authNonce');
                 }
+                $this->removeState('authNonce');
             }
         }
 
@@ -430,8 +439,10 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Return JwkSet, returning related data.
-     * @return JWKSet object represents a key set.
+     *
      * @throws InvalidResponseException on failure.
+     *
+     * @return JWKSet object represents a key set.
      */
     protected function getJwkSet()
     {
@@ -457,18 +468,18 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Return JWSLoader that validate the JWS token.
-     * @return JWSLoader to do token validation.
+     *
      * @throws InvalidConfigException on invalid algorithm provide in configuration.
+     *
+     * @return JWSLoader to do token validation.
      */
     protected function getJwsLoader()
     {
         if ($this->_jwsLoader === null) {
             $algorithms = [];
-            foreach ($this->allowedJwsAlgorithms as $algorithm)
-            {
+            foreach ($this->allowedJwsAlgorithms as $algorithm) {
                 $class = '\Jose\Component\Signature\Algorithm\\' . $algorithm;
-                if (!class_exists($class))
-                {
+                if (!class_exists($class)) {
                     throw new InvalidConfigException("Alogrithm class $class doesn't exist");
                 }
                 $algorithms[] = new $class();
@@ -487,9 +498,12 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Decrypts/validates JWS, returning related data.
+     *
      * @param string $jws raw JWS input.
-     * @return array JWS underlying data.
+     *
      * @throws HttpException on invalid JWS signature.
+     *
+     * @return array JWS underlying data.
      */
     protected function loadJws($jws)
     {
@@ -506,8 +520,11 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Validates the claims data received from OpenID provider.
+     *
      * @param array $claims claims data.
+     *
      * @throws HttpException on invalid claims.
+     *
      * @since 2.2.3
      */
     protected function validateClaims(array $claims)
@@ -527,6 +544,7 @@ class OpenIdConnect extends OAuth2
 
     /**
      * Generates the auth nonce value.
+     *
      * @return string auth nonce value.
      */
     protected function generateAuthNonce()

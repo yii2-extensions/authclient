@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\Collection;
@@ -31,7 +33,7 @@ class CollectionTest extends TestCase
         $clientId = 'testClientId';
         $client = new TestClient();
         $clients = [
-            $clientId => $client
+            $clientId => $client,
         ];
         $collection->setClients($clients);
 
@@ -49,13 +51,13 @@ class CollectionTest extends TestCase
         $clientClassName = TestClient::className();
         $clients = [
             $clientId => [
-                'class' => $clientClassName
-            ]
+                'class' => $clientClassName,
+            ],
         ];
         $collection->setClients($clients);
 
         $provider = $collection->getClient($clientId);
-        $this->assertTrue(is_object($provider), 'Unable to create client by config!');
+        $this->assertIsObject($provider, 'Unable to create client by config!');
         $this->assertTrue(is_a($provider, $clientClassName), 'Client has wrong class name!');
     }
 
@@ -69,7 +71,7 @@ class CollectionTest extends TestCase
         $clientName = 'testClientName';
         $clients = [
             $clientName => [
-                'class' => 'TestClient1'
+                'class' => 'TestClient1',
             ],
         ];
         $collection->setClients($clients);
@@ -90,8 +92,8 @@ class CollectionTest extends TestCase
         $clientClassName = TestClient::className();
         $clients = [
             $clientId => [
-                'class' => $clientClassName
-            ]
+                'class' => $clientClassName,
+            ],
         ];
         $collection->setClients($clients);
 

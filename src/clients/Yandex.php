@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -44,6 +47,7 @@ use yii\authclient\OAuth2;
  * @see https://api.yandex.ru/login/doc/dg/reference/response.xml
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class Yandex extends OAuth2
@@ -60,7 +64,6 @@ class Yandex extends OAuth2
      * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://login.yandex.ru';
-
 
     /**
      * {@inheritdoc}

@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -35,6 +38,7 @@ use yii\web\HttpException;
  * https://tools.ietf.org/html/rfc5849
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 abstract class OAuth1 extends BaseOAuth
@@ -71,14 +75,16 @@ abstract class OAuth1 extends BaseOAuth
      * @var array|null list of the request methods, which require adding 'Authorization' header.
      * By default only POST requests will have 'Authorization' header.
      * You may set this option to `null` in order to make all requests to use 'Authorization' header.
+     *
      * @since 2.1.1
      */
     public $authorizationHeaderMethods = ['POST'];
 
-
     /**
      * Fetches the OAuth request token.
+     *
      * @param array $params additional request params.
+     *
      * @return OAuthToken request token.
      */
     public function fetchRequestToken(array $params = [])
@@ -103,7 +109,7 @@ abstract class OAuth1 extends BaseOAuth
         $response = $this->sendRequest($request);
 
         $token = $this->createToken([
-            'params' => $response
+            'params' => $response,
         ]);
         $this->setState('requestToken', $token);
 
@@ -112,10 +118,13 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Composes user authorization URL.
+     *
      * @param OAuthToken $requestToken OAuth request token.
      * @param array $params additional request params.
-     * @return string authorize URL
+     *
      * @throws InvalidParamException on failure.
+     *
+     * @return string authorize URL
      */
     public function buildAuthUrl(OAuthToken $requestToken = null, array $params = [])
     {
@@ -132,13 +141,16 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Fetches OAuth access token.
+     *
      * @param string $oauthToken OAuth token returned with redirection back to client.
      * @param OAuthToken $requestToken OAuth request token.
      * @param string $oauthVerifier OAuth verifier.
      * @param array $params additional request params.
-     * @return OAuthToken OAuth access token.
+     *
      * @throws InvalidParamException on failure.
      * @throws HttpException in case oauth token miss-matches request token.
+     *
+     * @return OAuthToken OAuth access token.
      */
     public function fetchAccessToken($oauthToken = null, OAuthToken $requestToken = null, $oauthVerifier = null, array $params = [])
     {
@@ -163,7 +175,7 @@ abstract class OAuth1 extends BaseOAuth
 
         $defaultParams = [
             'oauth_consumer_key' => $this->consumerKey,
-            'oauth_token' => $requestToken->getToken()
+            'oauth_token' => $requestToken->getToken(),
         ];
         if ($oauthVerifier === null) {
             $oauthVerifier = $incomingRequest->get('oauth_verifier', $incomingRequest->post('oauth_verifier'));
@@ -182,7 +194,7 @@ abstract class OAuth1 extends BaseOAuth
         $response = $this->sendRequest($request);
 
         $token = $this->createToken([
-            'params' => $response
+            'params' => $response,
         ]);
         $this->setAccessToken($token);
 
@@ -216,7 +228,9 @@ abstract class OAuth1 extends BaseOAuth
     /**
      * Handles [[Request::EVENT_BEFORE_SEND]] event.
      * Ensures every request has been signed up before sending.
+     *
      * @param \yii\httpclient\RequestEvent $event event instance.
+     *
      * @since 2.1
      */
     public function beforeRequestSend($event)
@@ -237,7 +251,9 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Gets new auth token to replace expired one.
+     *
      * @param OAuthToken $token expired auth token.
+     *
      * @return OAuthToken new auth token.
      */
     public function refreshAccessToken(OAuthToken $token)
@@ -248,6 +264,7 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Generates nonce value.
+     *
      * @return string nonce value.
      */
     protected function generateNonce()
@@ -257,6 +274,7 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Generates timestamp.
+     *
      * @return int timestamp.
      */
     protected function generateTimestamp()
@@ -266,23 +284,24 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Generate common request params like version, timestamp etc.
+     *
      * @return array common request params.
      */
     protected function generateCommonRequestParams()
     {
-        $params = [
+        return [
             'oauth_version' => $this->version,
             'oauth_nonce' => $this->generateNonce(),
             'oauth_timestamp' => $this->generateTimestamp(),
         ];
-
-        return $params;
     }
 
     /**
      * Sign given request with [[signatureMethod]].
+     *
      * @param \yii\httpclient\Request $request request instance.
      * @param OAuthToken|null $token OAuth token to be used for signature, if not set [[accessToken]] will be used.
+     *
      * @since 2.1 this method is public.
      */
     public function signRequest($request, $token = null)
@@ -328,15 +347,17 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Creates signature base string, which will be signed by [[signatureMethod]].
+     *
      * @param string $method request method.
      * @param string $url request URL.
      * @param array $params request params.
+     *
      * @return string base signature string.
      */
     protected function composeSignatureBaseString($method, $url, array $params)
     {
         if (strpos($url, '?') !== false) {
-            list($url, $queryString) = explode('?', $url, 2);
+            [$url, $queryString] = explode('?', $url, 2);
             parse_str($queryString, $urlParams);
             $params = array_merge($urlParams, $params);
         }
@@ -345,7 +366,7 @@ abstract class OAuth1 extends BaseOAuth
         $parts = [
             strtoupper($method),
             $url,
-            http_build_query($params, '', '&', PHP_QUERY_RFC3986)
+            http_build_query($params, '', '&', PHP_QUERY_RFC3986),
         ];
         $parts = array_map('rawurlencode', $parts);
 
@@ -354,7 +375,9 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Composes request signature key.
+     *
      * @param OAuthToken|null $token OAuth token to be used for signature key.
+     *
      * @return string signature key.
      */
     protected function composeSignatureKey($token = null)
@@ -380,8 +403,10 @@ abstract class OAuth1 extends BaseOAuth
 
     /**
      * Composes authorization header.
+     *
      * @param array $params request params.
      * @param string $realm authorization realm.
+     *
      * @return array authorization header in format: [name => content].
      */
     protected function composeAuthorizationHeader(array $params, $realm = '')

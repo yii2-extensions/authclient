@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient\signature;
 
 use yiiunit\extensions\authclient\TestCase;
@@ -8,6 +10,7 @@ class BaseMethodTest extends TestCase
 {
     /**
      * Creates test signature method instance.
+     *
      * @return \yii\authclient\signature\BaseMethod
      */
     protected function createTestSignatureMethod()
@@ -15,8 +18,8 @@ class BaseMethodTest extends TestCase
         $signatureMethod = $this->getMockBuilder('\yii\authclient\signature\BaseMethod')
             ->onlyMethods(['getName', 'generateSignature'])
             ->getMock();
-        $signatureMethod->expects($this->any())->method('getName')->will($this->returnValue('testMethodName'));
-        $signatureMethod->expects($this->any())->method('generateSignature')->will($this->returnValue('testSignature'));
+        $signatureMethod->expects($this->any())->method('getName')->willReturn('testMethodName');
+        $signatureMethod->expects($this->any())->method('generateSignature')->willReturn('testSignature');
 
         return $signatureMethod;
     }

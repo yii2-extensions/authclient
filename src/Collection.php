@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -37,15 +40,16 @@ use Yii;
  * ]
  * ```
  *
- * @property-read ClientInterface[] $clients List of auth clients.
+ * @property ClientInterface[] $clients List of auth clients.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class Collection extends Component
 {
     /**
-     * @var \yii\httpclient\Client|array|string HTTP client instance or configuration for the [[clients]].
+     * @var array|string|\yii\httpclient\Client HTTP client instance or configuration for the [[clients]].
      * If set, this value will be passed as 'httpClient' config option while instantiating particular client object.
      * This option is useful for adjusting HTTP client configuration for the entire list of auth clients.
      */
@@ -55,7 +59,6 @@ class Collection extends Component
      * @var array list of Auth clients with their configuration in format: 'clientId' => [...]
      */
     private $_clients = [];
-
 
     /**
      * @param array $clients list of auth clients
@@ -80,8 +83,10 @@ class Collection extends Component
 
     /**
      * @param string $id service id.
-     * @return ClientInterface auth client instance.
+     *
      * @throws InvalidParamException on non existing client request.
+     *
+     * @return ClientInterface auth client instance.
      */
     public function getClient($id)
     {
@@ -97,7 +102,9 @@ class Collection extends Component
 
     /**
      * Checks if client exists in the hub.
+     *
      * @param string $id client id.
+     *
      * @return bool whether client exist.
      */
     public function hasClient($id)
@@ -107,8 +114,10 @@ class Collection extends Component
 
     /**
      * Creates auth client instance from its array configuration.
+     *
      * @param string $id auth client id.
      * @param array $config auth client instance configuration.
+     *
      * @return ClientInterface auth client instance.
      */
     protected function createClient($id, $config)

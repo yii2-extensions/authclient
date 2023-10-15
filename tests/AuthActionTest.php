@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\AuthAction;
-use yii\authclient\Collection;
 
 class AuthActionTest extends TestCase
 {
@@ -12,13 +13,13 @@ class AuthActionTest extends TestCase
         $config = [
             'components' => [
                 'user' => [
-                    'identityClass' => '\yii\web\IdentityInterface'
+                    'identityClass' => '\yii\web\IdentityInterface',
                 ],
                 'request' => [
                     'hostInfo' => 'http://testdomain.com',
                     'scriptUrl' => '/index.php',
                 ],
-            ]
+            ],
         ];
         $this->mockApplication($config, '\yii\web\Application');
     }

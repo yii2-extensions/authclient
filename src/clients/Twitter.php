@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -43,6 +46,7 @@ use yii\authclient\OAuth1;
  * @see https://dev.twitter.com/
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class Twitter extends OAuth1
@@ -85,7 +89,6 @@ class Twitter extends OAuth1
      * @since 2.0.6
      */
     public $attributeParams = [];
-
 
     /**
      * {@inheritdoc}

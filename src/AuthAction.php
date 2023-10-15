@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -53,10 +56,11 @@ use yii\web\User;
  * @see \yii\authclient\widgets\AuthChoice
  *
  * @property string $cancelUrl Cancel URL.
- * @property-read string $clientId Client ID.
+ * @property string $clientId Client ID.
  * @property string $successUrl Successful URL.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class AuthAction extends Action
@@ -112,12 +116,14 @@ class AuthAction extends Action
      */
     public $redirectView;
     /**
-     * @var User|array|string the User object or the application component ID of the user component.
+     * @var array|string|User the User object or the application component ID of the user component.
+     *
      * @since 2.1.8
      */
     public $user = 'user';
     /**
      * @var string the default client ID
+     *
      * @since 2.2.12
      */
     public $defaultClientId = '';
@@ -130,7 +136,6 @@ class AuthAction extends Action
      * @var string the redirect url after unsuccessful authorization (e.g. user canceled).
      */
     private $_cancelUrl;
-
 
     /**
      * @inheritdoc
@@ -183,6 +188,7 @@ class AuthAction extends Action
 
     /**
      * Creates default [[successUrl]] value.
+     *
      * @return string success URL value.
      */
     protected function defaultSuccessUrl()
@@ -192,6 +198,7 @@ class AuthAction extends Action
 
     /**
      * Creates default [[cancelUrl]] value.
+     *
      * @return string cancel URL value.
      */
     protected function defaultCancelUrl()
@@ -221,18 +228,23 @@ class AuthAction extends Action
 
     /**
      * Perform authentication for the given client.
+     *
      * @param mixed $client auth client instance.
      * @param array $authUrlParams additional auth GET params.
-     * @return Response response instance.
+     *
      * @throws \yii\base\NotSupportedException on invalid client.
+     *
+     * @return Response response instance.
      */
     protected function auth($client, $authUrlParams = [])
     {
         if ($client instanceof OAuth2) {
             return $this->authOAuth2($client, $authUrlParams);
-        } elseif ($client instanceof OAuth1) {
+        }
+        if ($client instanceof OAuth1) {
             return $this->authOAuth1($client, $authUrlParams);
-        } elseif ($client instanceof OpenId) {
+        }
+        if ($client instanceof OpenId) {
             return $this->authOpenId($client);
         }
 
@@ -241,17 +253,20 @@ class AuthAction extends Action
 
     /**
      * This method is invoked in case of successful authentication via auth client.
+     *
      * @param ClientInterface $client auth client instance.
+     *
      * @throws InvalidConfigException on invalid success callback.
+     *
      * @return Response response instance.
      */
     protected function authSuccess($client)
     {
         if (!is_callable($this->successCallback)) {
-            throw new InvalidConfigException('"' . get_class($this) . '::$successCallback" should be a valid callback.');
+            throw new InvalidConfigException('"' . static::class . '::$successCallback" should be a valid callback.');
         }
 
-        $response = call_user_func($this->successCallback, $client);
+        $response = ($this->successCallback)($client);
         if ($response instanceof Response) {
             return $response;
         }
@@ -261,14 +276,17 @@ class AuthAction extends Action
 
     /**
      * This method is invoked in case of authentication cancelation.
+     *
      * @param ClientInterface $client auth client instance.
+     *
      * @return Response response instance.
+     *
      * @since 2.1.5
      */
     protected function authCancel($client)
     {
         if ($this->cancelCallback !== null) {
-            $response = call_user_func($this->cancelCallback, $client);
+            $response = ($this->cancelCallback)($client);
             if ($response instanceof Response) {
                 return $response;
             }
@@ -279,8 +297,10 @@ class AuthAction extends Action
 
     /**
      * Redirect to the given URL or simply close the popup window.
+     *
      * @param mixed $url URL to redirect, could be a string or array config to generate a valid URL.
      * @param bool $enforceRedirect indicates if redirect should be performed even in case of popup window.
+     *
      * @return \yii\web\Response response instance.
      */
     public function redirect($url, $enforceRedirect = true)
@@ -305,7 +325,9 @@ class AuthAction extends Action
 
     /**
      * Redirect to the URL. If URL is null, [[successUrl]] will be used.
+     *
      * @param string $url URL to redirect.
+     *
      * @return \yii\web\Response response instance.
      */
     public function redirectSuccess($url = null)
@@ -318,7 +340,9 @@ class AuthAction extends Action
 
     /**
      * Redirect to the [[cancelUrl]] or simply close the popup window.
+     *
      * @param string $url URL to redirect.
+     *
      * @return \yii\web\Response response instance.
      */
     public function redirectCancel($url = null)
@@ -331,10 +355,13 @@ class AuthAction extends Action
 
     /**
      * Performs OpenID auth flow.
+     *
      * @param OpenId $client auth client instance.
-     * @return Response action response.
+     *
      * @throws Exception on failure.
      * @throws HttpException on failure.
+     *
+     * @return Response action response.
      */
     protected function authOpenId($client)
     {
@@ -361,8 +388,10 @@ class AuthAction extends Action
 
     /**
      * Performs OAuth1 auth flow.
+     *
      * @param OAuth1 $client auth client instance.
      * @param array $authUrlParams additional auth GET params.
+     *
      * @return Response action response.
      */
     protected function authOAuth1($client, $authUrlParams = [])
@@ -390,10 +419,13 @@ class AuthAction extends Action
 
     /**
      * Performs OAuth2 auth flow.
+     *
      * @param OAuth2 $client auth client instance.
      * @param array $authUrlParams additional auth GET params.
-     * @return Response action response.
+     *
      * @throws \yii\base\Exception on failure.
+     *
+     * @return Response action response.
      */
     protected function authOAuth2($client, $authUrlParams = [])
     {
@@ -431,6 +463,7 @@ class AuthAction extends Action
 
     /**
      * @return string client ID
+     *
      * @since 2.2.12
      */
     public function getClientId()

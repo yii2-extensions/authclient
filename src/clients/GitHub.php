@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -36,6 +39,7 @@ use yii\authclient\OAuth2;
  * @see https://github.com/settings/developers
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class GitHub extends OAuth2
@@ -52,7 +56,6 @@ class GitHub extends OAuth2
      * {@inheritdoc}
      */
     public $apiBaseUrl = 'https://api.github.com';
-
 
     /**
      * {@inheritdoc}

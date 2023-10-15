@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient\clients;
 
 use yii\authclient\BaseOAuth;
 use yii\authclient\clients\GoogleHybrid;
 use yiiunit\extensions\authclient\TestCase;
-use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
 class GoogleHybridTest extends TestCase
 {
@@ -17,9 +18,9 @@ class GoogleHybridTest extends TestCase
     public static function defaultReturnUrl(): array
     {
         return [
-            'default'                => [['authclient' => 'google-hybrid'], null, 'postmessage'],
+            'default' => [['authclient' => 'google-hybrid'], null, 'postmessage'],
             'remove extra parameter' => [['authclient' => 'google-hybrid', 'extra' => 'userid'], null, 'postmessage'],
-            'keep extra parameter'   => [['authclient' => 'google-hybrid', 'extra' => 'userid'], ['authclient', 'extra'], 'postmessage'],
+            'keep extra parameter' => [['authclient' => 'google-hybrid', 'extra' => 'userid'], ['authclient', 'extra'], 'postmessage'],
         ];
     }
 

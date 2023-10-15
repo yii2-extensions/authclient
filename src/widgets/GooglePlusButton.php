@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -24,6 +27,7 @@ use yii\web\View;
  * in getter and setter. See [[getCallback()]] and [[setCallback()]] for details.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0.4
  */
 class GooglePlusButton extends AuthChoiceItem
@@ -34,7 +38,7 @@ class GooglePlusButton extends AuthChoiceItem
     public $buttonHtmlOptions = [];
 
     /**
-     * @var string|array name of the JavaScript function, which should be used as sign-in callback.
+     * @var array|string name of the JavaScript function, which should be used as sign-in callback.
      * If blank default one will be generated: it will redirect page to the auth action using auth result
      * as GET parameters.
      * You may pass an array configuration of the URL here, which will be used creating such
@@ -42,9 +46,8 @@ class GooglePlusButton extends AuthChoiceItem
      */
     private $_callback;
 
-
     /**
-     * @param string|array $callback callback JavaScript function name or URL config.
+     * @param array|string $callback callback JavaScript function name or URL config.
      */
     public function setCallback($callback)
     {
@@ -85,7 +88,9 @@ class GooglePlusButton extends AuthChoiceItem
 
     /**
      * Generates JavaScript callback function, which will be used to handle auth response.
+     *
      * @param array $url auth callback URL.
+     *
      * @return string JavaScript function name.
      */
     protected function generateCallback($url = [])
@@ -148,6 +153,7 @@ JS;
 
     /**
      * Renders sign-in button.
+     *
      * @return string button HTML.
      */
     protected function renderButton()

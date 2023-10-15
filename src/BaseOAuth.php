@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -25,6 +28,7 @@ use yii\httpclient\Request;
  * property differs in getter and setter. See [[getSignatureMethod()]] and [[setSignatureMethod()]] for details.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 abstract class BaseOAuth extends BaseClient
@@ -49,11 +53,13 @@ abstract class BaseOAuth extends BaseClient
     public $scope;
     /**
      * @var bool whether to automatically perform 'refresh access token' request on expired access token.
+     *
      * @since 2.0.6
      */
     public $autoRefreshAccessToken = true;
     /**
      * @var array List of the parameters to keep in default return url.
+     *
      * @since 2.2.4
      */
     public $parametersToKeepInReturnUrl = [
@@ -67,15 +73,14 @@ abstract class BaseOAuth extends BaseClient
      */
     private $_returnUrl;
     /**
-     * @var OAuthToken|array|null access token instance, its array configuration or null that means that token would be
+     * @var array|OAuthToken|null access token instance, its array configuration or null that means that token would be
      * restored from token store.
      */
     private $_accessToken;
     /**
-     * @var signature\BaseMethod|array signature method instance or its array configuration.
+     * @var array|signature\BaseMethod signature method instance or its array configuration.
      */
     private $_signatureMethod = [];
-
 
     /**
      * @param string $returnUrl return URL
@@ -98,6 +103,7 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Sets access token to be used.
+     *
      * @param array|OAuthToken|null $token access token or its configuration. Set to null to restore token from token store.
      */
     public function setAccessToken($token)
@@ -123,13 +129,15 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Set signature method to be used.
+     *
      * @param array|signature\BaseMethod $signatureMethod signature method instance or its array configuration.
+     *
      * @throws InvalidArgumentException on wrong argument.
      */
     public function setSignatureMethod($signatureMethod)
     {
         if (!is_object($signatureMethod) && !is_array($signatureMethod)) {
-            throw new InvalidArgumentException('"' . get_class($this) . '::signatureMethod" should be instance of "\yii\autclient\signature\BaseMethod" or its array configuration. "' . gettype($signatureMethod) . '" has been given.');
+            throw new InvalidArgumentException('"' . static::class . '::signatureMethod" should be instance of "\yii\autclient\signature\BaseMethod" or its array configuration. "' . gettype($signatureMethod) . '" has been given.');
         }
         $this->_signatureMethod = $signatureMethod;
     }
@@ -170,6 +178,7 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Composes default [[returnUrl]] value.
+     *
      * @return string return URL.
      */
     protected function defaultReturnUrl()
@@ -195,7 +204,9 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Creates signature method instance from its configuration.
+     *
      * @param array $signatureMethodConfig signature method configuration.
+     *
      * @return signature\BaseMethod signature method instance.
      */
     protected function createSignatureMethod(array $signatureMethodConfig)
@@ -208,7 +219,9 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Creates token from its configuration.
+     *
      * @param array $tokenConfig token configuration.
+     *
      * @return OAuthToken token instance.
      */
     protected function createToken(array $tokenConfig = [])
@@ -221,11 +234,15 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Sends the given HTTP request, returning response data.
+     *
      * @param \yii\httpclient\Request $request HTTP request to be sent.
-     * @return array|string|null response data.
+     *
      * @throws ClientErrorResponseException on client error response codes.
      * @throws InvalidResponseException on non-successful (other than client error) response codes.
      * @throws \yii\httpclient\Exception
+     *
+     * @return array|string|null response data.
+     *
      * @since 2.1
      */
     protected function sendRequest($request)
@@ -248,15 +265,16 @@ abstract class BaseOAuth extends BaseClient
 
         if (stripos($response->headers->get('content-type', ''), 'application/jwt') !== false) {
             return $response->getContent();
-        } else {
-            return $response->getData();
         }
+        return $response->getData();
     }
 
     /**
      * Composes URL from base URL and GET params.
+     *
      * @param string $url base URL.
      * @param array $params GET params.
+     *
      * @return string composed URL.
      */
     protected function composeUrl($url, array $params = [])
@@ -274,7 +292,9 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Saves token as persistent state.
+     *
      * @param OAuthToken|null $token auth token to be saved.
+     *
      * @return $this the object itself.
      */
     protected function saveAccessToken($token)
@@ -284,6 +304,7 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Restores access token.
+     *
      * @return OAuthToken auth token.
      */
     protected function restoreAccessToken()
@@ -302,8 +323,11 @@ abstract class BaseOAuth extends BaseClient
      * Creates an HTTP request for the API call.
      * The created request will be automatically processed adding access token parameters and signature
      * before sending. You may use [[createRequest()]] to gain full control over request composition and execution.
+     *
      * @see createRequest()
+     *
      * @return Request HTTP request instance.
+     *
      * @since 2.1
      */
     public function createApiRequest()
@@ -316,8 +340,11 @@ abstract class BaseOAuth extends BaseClient
     /**
      * Handles [[Request::EVENT_BEFORE_SEND]] event.
      * Applies [[accessToken]] to the request.
+     *
      * @param \yii\httpclient\RequestEvent $event event instance.
+     *
      * @throws Exception on invalid access token.
+     *
      * @since 2.1
      */
     public function beforeApiRequestSend($event)
@@ -325,7 +352,8 @@ abstract class BaseOAuth extends BaseClient
         $accessToken = $this->getAccessToken();
         if (!is_object($accessToken) || (!$accessToken->getIsValid() && !$this->autoRefreshAccessToken)) {
             throw new Exception('Invalid access token.');
-        } elseif ($accessToken->getIsExpired() && $this->autoRefreshAccessToken) {
+        }
+        if ($accessToken->getIsExpired() && $this->autoRefreshAccessToken) {
             $accessToken = $this->refreshAccessToken($accessToken);
         }
 
@@ -335,11 +363,14 @@ abstract class BaseOAuth extends BaseClient
     /**
      * Performs request to the OAuth API returning response data.
      * You may use [[createApiRequest()]] method instead, gaining more control over request execution.
+     *
      * @see createApiRequest()
-     * @param string|array $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
+     *
+     * @param array|string $apiSubUrl API sub URL, which will be append to [[apiBaseUrl]], or absolute API URL.
      * @param string $method request method.
      * @param array|string $data request data or content.
      * @param array $headers additional request headers.
+     *
      * @return array API response data.
      */
     public function api($apiSubUrl, $method = 'GET', $data = [], $headers = [])
@@ -362,15 +393,19 @@ abstract class BaseOAuth extends BaseClient
 
     /**
      * Gets new auth token to replace expired one.
+     *
      * @param OAuthToken $token expired auth token.
+     *
      * @return OAuthToken new auth token.
      */
     abstract public function refreshAccessToken(OAuthToken $token);
 
     /**
      * Applies access token to the HTTP request instance.
+     *
      * @param \yii\httpclient\Request $request HTTP request instance.
      * @param OAuthToken $accessToken access token instance.
+     *
      * @since 2.1
      */
     abstract public function applyAccessTokenToRequest($request, $accessToken);

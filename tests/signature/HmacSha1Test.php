@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient\signature;
 
 use yii\authclient\signature\HmacSha1;

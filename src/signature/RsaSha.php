@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -19,6 +22,7 @@ use yii\base\NotSupportedException;
  * @property string $publicCertificate Public key certificate content.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.1.3
  */
 class RsaSha extends BaseMethod
@@ -33,6 +37,7 @@ class RsaSha extends BaseMethod
     public $publicCertificateFile;
     /**
      * @var int|string signature hash algorithm, e.g. `OPENSSL_ALGO_SHA1`, `OPENSSL_ALGO_SHA256` and so on.
+     *
      * @see https://php.net/manual/en/openssl.signature-algos.php
      */
     public $algorithm;
@@ -47,7 +52,6 @@ class RsaSha extends BaseMethod
      * This value can be fetched from file specified by [[publicCertificateFile]].
      */
     protected $_publicCertificate;
-
 
     /**
      * {@inheritdoc}
@@ -130,7 +134,9 @@ class RsaSha extends BaseMethod
     /**
      * Creates initial value for [[publicCertificate]].
      * This method will attempt to fetch the certificate value from [[publicCertificateFile]] file.
+     *
      * @throws InvalidConfigException on failure.
+     *
      * @return string public certificate content.
      */
     protected function initPublicCertificate()
@@ -147,7 +153,9 @@ class RsaSha extends BaseMethod
     /**
      * Creates initial value for [[privateCertificate]].
      * This method will attempt to fetch the certificate value from [[privateCertificateFile]] file.
+     *
      * @throws InvalidConfigException on failure.
+     *
      * @return string private certificate content.
      */
     protected function initPrivateCertificate()
@@ -198,6 +206,6 @@ class RsaSha extends BaseMethod
             openssl_free_key($publicKeyId);
         }
 
-        return ($verificationResult == 1);
+        return $verificationResult == 1;
     }
 }

@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -38,6 +41,7 @@ use yii\helpers\Json;
  * @see https://vk.com/dev/users.get
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class VKontakte extends OAuth2
@@ -56,6 +60,7 @@ class VKontakte extends OAuth2
     public $apiBaseUrl = 'https://api.vk.com/method';
     /**
      * @var array list of attribute names, which should be requested from API to initialize user attributes.
+     *
      * @since 2.0.4
      */
     public $attributeNames = [
@@ -69,15 +74,15 @@ class VKontakte extends OAuth2
         'city',
         'country',
         'timezone',
-        'photo'
+        'photo',
     ];
     /**
      * @var string the API version to send in the API request.
+     *
      * @see https://vk.com/dev/versions
      * @since 2.1.4
      */
     public $apiVersion = '5.95';
-
 
     /**
      * {@inheritdoc}
@@ -97,8 +102,8 @@ class VKontakte extends OAuth2
         $accessToken = $this->getAccessToken();
         if (is_object($accessToken)) {
             $accessTokenParams = $accessToken->getParams();
-            unset($accessTokenParams['access_token']);
-            unset($accessTokenParams['expires_in']);
+            unset($accessTokenParams['access_token'], $accessTokenParams['expires_in']);
+
             $attributes = array_merge($accessTokenParams, $attributes);
         }
 
@@ -139,7 +144,7 @@ class VKontakte extends OAuth2
     protected function defaultNormalizeUserAttributeMap()
     {
         return [
-            'id' => 'uid'
+            'id' => 'uid',
         ];
     }
 }

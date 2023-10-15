@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -55,6 +58,7 @@ namespace yii\authclient\clients;
  * @see https://developers.google.com/+/web/signin
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0.4
  */
 class GoogleHybrid extends Google
@@ -63,7 +67,6 @@ class GoogleHybrid extends Google
      * {@inheritdoc}
      */
     public $validateAuthState = false;
-
 
     /**
      * {@inheritdoc}
@@ -80,7 +83,7 @@ class GoogleHybrid extends Google
     {
         return [
             'widget' => [
-                'class' => 'yii\authclient\widgets\GooglePlusButton'
+                'class' => 'yii\authclient\widgets\GooglePlusButton',
             ],
         ];
     }

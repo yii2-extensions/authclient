@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\BaseClient;
@@ -14,15 +16,14 @@ class BaseClientTest extends TestCase
 
     /**
      * Creates test OAuth client instance.
+     *
      * @return BaseClient oauth client.
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(BaseClient::className())
+        return $this->getMockBuilder(BaseClient::className())
             ->onlyMethods(['initUserAttributes'])
             ->getMock();
-
-        return $oauthClient;
     }
 
     // Tests :
@@ -107,16 +108,16 @@ class BaseClientTest extends TestCase
         $client = $this->createClient();
 
         $client->setHttpClient([
-            'baseUrl' => 'http://domain.com'
+            'baseUrl' => 'http://domain.com',
         ]);
         $httpClient = $client->getHttpClient();
 
-        $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to setup http client.');
+        $this->assertInstanceOf(\yii\httpclient\Client::class, $httpClient, 'Unable to setup http client.');
         $this->assertEquals('http://domain.com', $httpClient->baseUrl, 'Unable to setup http client property.');
 
         $client = $this->createClient();
         $httpClient = $client->getHttpClient();
-        $this->assertTrue($httpClient instanceof \yii\httpclient\Client, 'Unable to get default http client.');
+        $this->assertInstanceOf(\yii\httpclient\Client::class, $httpClient, 'Unable to get default http client.');
     }
 
     /**
@@ -128,10 +129,10 @@ class BaseClientTest extends TestCase
         $client = $this->createClient();
 
         $request = $client->createRequest();
-        $this->assertTrue($request instanceof \yii\httpclient\Request);
+        $this->assertInstanceOf(\yii\httpclient\Request::class, $request);
 
         $options = [
-            'userAgent' => 'Test User Agent'
+            'userAgent' => 'Test User Agent',
         ];
         $client->setRequestOptions($options);
         $request = $client->createRequest();
@@ -150,6 +151,6 @@ class BaseClientTest extends TestCase
 
         $client = $this->createClient();
         $stateStorage = $client->getStateStorage();
-        $this->assertTrue($stateStorage instanceof SessionStateStorage, 'Unable to get default http client.');
+        $this->assertInstanceOf(SessionStateStorage::class, $stateStorage, 'Unable to get default http client.');
     }
 }

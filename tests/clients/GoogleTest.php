@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient\clients;
 
 use yii\authclient\BaseOAuth;
@@ -7,7 +9,6 @@ use yii\authclient\clients\Google;
 use yii\authclient\OAuthToken;
 use yii\authclient\signature\RsaSha;
 use yiiunit\extensions\authclient\TestCase;
-use yiiunit\extensions\authclient\traits\OAuthDefaultReturnUrlTestTrait;
 
 /**
  * @group google
@@ -22,7 +23,7 @@ class GoogleTest extends TestCase
                     'hostInfo' => 'http://testdomain.com',
                     'scriptUrl' => '/index.php',
                 ],
-            ]
+            ],
         ];
         $this->mockApplication($config, '\yii\web\Application');
     }
@@ -31,16 +32,16 @@ class GoogleTest extends TestCase
     {
         $params = $this->getParam('google');
         if (empty($params['serviceAccount'])) {
-            $this->markTestSkipped("Google service account name is not configured.");
+            $this->markTestSkipped('Google service account name is not configured.');
         }
 
         $oauthClient = new Google();
         $token = $oauthClient->authenticateUserJwt($params['serviceAccount'], [
             'class' => RsaSha::className(),
             'algorithm' => OPENSSL_ALGO_SHA256,
-            'privateCertificate' => $params['serviceAccountPrivateKey']
+            'privateCertificate' => $params['serviceAccountPrivateKey'],
         ]);
-        $this->assertTrue($token instanceof OAuthToken);
+        $this->assertInstanceOf(OAuthToken::class, $token);
         $this->assertNotEmpty($token->getToken());
     }
 
@@ -52,9 +53,9 @@ class GoogleTest extends TestCase
     public static function defaultReturnUrl(): array
     {
         return [
-            'default'                => [['authclient' => 'google'], null, '/?authclient=google'],
+            'default' => [['authclient' => 'google'], null, '/?authclient=google'],
             'remove extra parameter' => [['authclient' => 'google', 'extra' => 'userid'], null, '/?authclient=google'],
-            'keep extra parameter'   => [['authclient' => 'google', 'extra' => 'userid'], ['authclient', 'extra'], '/?authclient=google&extra=userid'],
+            'keep extra parameter' => [['authclient' => 'google', 'extra' => 'userid'], ['authclient', 'extra'], '/?authclient=google&extra=userid'],
         ];
     }
 

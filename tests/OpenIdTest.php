@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OpenId;
@@ -14,7 +16,7 @@ class OpenIdTest extends TestCase
                     'hostInfo' => 'http://testdomain.com',
                     'scriptUrl' => '/index.php',
                 ],
-            ]
+            ],
         ];
         $this->mockApplication($config, '\yii\web\Application');
     }

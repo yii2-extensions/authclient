@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuth2;
@@ -14,21 +16,21 @@ class OAuth2Test extends TestCase
                     'hostInfo' => 'http://testdomain.com',
                     'scriptUrl' => '/index.php',
                 ],
-            ]
+            ],
         ];
         $this->mockApplication($config, '\yii\web\Application');
     }
 
     /**
      * Creates test OAuth2 client instance.
+     *
      * @return OAuth2 oauth client.
      */
     protected function createClient()
     {
-        $oauthClient = $this->getMockBuilder(OAuth2::className())
+        return $this->getMockBuilder(OAuth2::className())
             ->onlyMethods(['initUserAttributes'])
             ->getMock();
-        return $oauthClient;
     }
 
     // Tests :

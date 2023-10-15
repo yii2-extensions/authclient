@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -19,12 +22,13 @@ use yii\web\Session;
  * @see Session
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.1
  */
 class SessionStateStorage extends Component implements StateStorageInterface
 {
     /**
-     * @var Session|array|string session object or the application component ID of the session object to be used.
+     * @var array|Session|string session object or the application component ID of the session object to be used.
      *
      * After the SessionStateStorage object is created, if you want to change this property,
      * you should only assign it with a session object.
@@ -33,7 +37,6 @@ class SessionStateStorage extends Component implements StateStorageInterface
      * otherwise - no session will be used and no data saving will be performed.
      */
     public $session;
-
 
     /**
      * {@inheritdoc}

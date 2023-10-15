@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @link https://www.yiiframework.com/
+ *
  * @copyright Copyright (c) 2008 Yii Software LLC
  * @license https://www.yiiframework.com/license/
  */
@@ -57,10 +60,11 @@ use yii\authclient\ClientInterface;
  *
  * @see \yii\authclient\AuthAction
  *
- * @property-read array $baseAuthUrl Base auth URL configuration.
- * @property-read ClientInterface[] $clients Auth providers.
+ * @property array $baseAuthUrl Base auth URL configuration.
+ * @property ClientInterface[] $clients Auth providers.
  *
  * @author Paul Klimov <klimov.paul@gmail.com>
+ *
  * @since 2.0
  */
 class AuthChoice extends Widget
@@ -77,6 +81,7 @@ class AuthChoice extends Widget
     public $clientIdGetParamName = 'authclient';
     /**
      * @var array the HTML attributes that should be rendered in the div HTML tag representing the container element.
+     *
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $options = [];
@@ -102,7 +107,6 @@ class AuthChoice extends Widget
      * @var ClientInterface[] auth providers list.
      */
     private $_clients;
-
 
     /**
      * @param ClientInterface[] $clients auth providers
@@ -146,6 +150,7 @@ class AuthChoice extends Widget
 
     /**
      * Returns default auth clients list.
+     *
      * @return ClientInterface[] auth clients list.
      */
     protected function defaultClients()
@@ -158,27 +163,29 @@ class AuthChoice extends Widget
 
     /**
      * Composes default base auth URL configuration.
+     *
      * @return array base auth URL configuration.
      */
     protected function defaultBaseAuthUrl()
     {
         $baseAuthUrl = [
-            Yii::$app->controller->getRoute()
+            Yii::$app->controller->getRoute(),
         ];
         $params = Yii::$app->getRequest()->getQueryParams();
         unset($params[$this->clientIdGetParamName]);
-        $baseAuthUrl = array_merge($baseAuthUrl, $params);
-
-        return $baseAuthUrl;
+        return array_merge($baseAuthUrl, $params);
     }
 
     /**
      * Outputs client auth link.
+     *
      * @param ClientInterface $client external auth client instance.
      * @param string $text link text, if not set - default value will be generated.
      * @param array $htmlOptions link HTML options.
-     * @return string generated HTML.
+     *
      * @throws InvalidConfigException on wrong configuration.
+     *
+     * @return string generated HTML.
      */
     public function clientLink($client, $text = null, array $htmlOptions = [])
     {
@@ -213,7 +220,7 @@ class AuthChoice extends Widget
         }
         /* @var $widgetClass Widget */
         $widgetClass = $widgetConfig['class'];
-        if (!(is_subclass_of($widgetClass, AuthChoiceItem::className()))) {
+        if (!is_subclass_of($widgetClass, AuthChoiceItem::className())) {
             throw new InvalidConfigException('Item widget class must be subclass of "' . AuthChoiceItem::className() . '"');
         }
         unset($widgetConfig['class']);
@@ -224,7 +231,9 @@ class AuthChoice extends Widget
 
     /**
      * Composes client auth URL.
+     *
      * @param ClientInterface $client external auth client instance.
+     *
      * @return string auth URL.
      */
     public function createClientUrl($client)
@@ -238,6 +247,7 @@ class AuthChoice extends Widget
 
     /**
      * Renders the main content, which includes all external services links.
+     *
      * @return string generated HTML.
      */
     protected function renderMainContent()
@@ -272,6 +282,7 @@ class AuthChoice extends Widget
 
     /**
      * Runs the widget.
+     *
      * @return string rendered HTML.
      */
     public function run()

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient\signature;
 
 use yii\authclient\signature\RsaSha;
@@ -9,6 +11,7 @@ class RsaShaTest extends TestCase
 {
     /**
      * Returns test public certificate string.
+     *
      * @return string public certificate string.
      */
     protected function getTestPublicCertificate()
@@ -36,6 +39,7 @@ gVdK2V4fYsUeT6u49ONshvJ/8xhHz2gGXeLWaqHwtK3Dl3S6TIDuoQ==
 
     /**
      * Returns test private certificate string.
+     *
      * @return string private certificate string.
      */
     protected function getTestPrivateCertificate()

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace yiiunit\extensions\authclient;
 
 use yii\authclient\OAuthToken;
@@ -13,7 +15,7 @@ class TokenTest extends TestCase
             'tokenSecretParamKey' => 'test_token_secret_param_key',
         ];
         $oauthToken = new OAuthToken($config);
-        $this->assertTrue(is_object($oauthToken), 'Unable to create access token!');
+        $this->assertIsObject($oauthToken, 'Unable to create access token!');
         foreach ($config as $name => $value) {
             $this->assertEquals($value, $oauthToken->$name, 'Unable to setup attributes by constructor!');
         }
@@ -74,6 +76,7 @@ class TokenTest extends TestCase
 
     /**
      * @depends testSetupParamsShortcuts
+     *
      * @dataProvider yiiunit\extensions\authclient\Provider\Data::autoFetchExpireDuration
      *
      * @param array $params
