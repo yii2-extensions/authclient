@@ -2,7 +2,7 @@
     <a href="https://github.com/yii2-extensions/authclient" target="_blank">
         <img src="https://www.yiiframework.com/image/yii_logo_light.svg" height="100px;">
     </a>
-    <h1 align="center">authclient</h1>
+    <h1 align="center">AuthClient</h1>
 </p>
 
 <p align="center">
