@@ -28,7 +28,7 @@ class BaseClientTest extends TestCase
 
     // Tests :
 
-    public function testSetGet()
+    public function testSetGet(): void
     {
         $client = $this->createClient();
 
@@ -73,7 +73,7 @@ class BaseClientTest extends TestCase
         $this->assertEquals($requestOptions, $client->getRequestOptions(), 'Unable to setup request options!');
     }
 
-    public function testGetDefaults()
+    public function testGetDefaults(): void
     {
         $client = $this->createClient();
 
@@ -92,7 +92,7 @@ class BaseClientTest extends TestCase
      * @param array $rawUserAttributes
      * @param array $expectedNormalizedUserAttributes
      */
-    public function testNormalizeUserAttributes($normalizeUserAttributeMap, $rawUserAttributes, $expectedNormalizedUserAttributes)
+    public function testNormalizeUserAttributes($normalizeUserAttributeMap, $rawUserAttributes, $expectedNormalizedUserAttributes): void
     {
         $client = $this->createClient();
         $client->setNormalizeUserAttributeMap($normalizeUserAttributeMap);
@@ -103,7 +103,7 @@ class BaseClientTest extends TestCase
         $this->assertEquals(array_merge($rawUserAttributes, $expectedNormalizedUserAttributes), $normalizedUserAttributes);
     }
 
-    public function testSetupHttpClient()
+    public function testSetupHttpClient(): void
     {
         $client = $this->createClient();
 
@@ -124,7 +124,7 @@ class BaseClientTest extends TestCase
      * @depends testSetGet
      * @depends testSetupHttpClient
      */
-    public function testCreateRequest()
+    public function testCreateRequest(): void
     {
         $client = $this->createClient();
 
@@ -140,7 +140,7 @@ class BaseClientTest extends TestCase
         $this->assertEquals($expectedOptions, $request->getOptions());
     }
 
-    public function testSetupStateStorage()
+    public function testSetupStateStorage(): void
     {
         $client = $this->createClient();
 

@@ -37,7 +37,7 @@ class BaseOAuthTest extends TestCase
 
     // Tests :
 
-    public function testSetGet()
+    public function testSetGet(): void
     {
         $oauthClient = $this->createClient();
 
@@ -46,7 +46,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($returnUrl, $oauthClient->getReturnUrl(), 'Unable to setup return URL!');
     }
 
-    public function testSetupHttpClient()
+    public function testSetupHttpClient(): void
     {
         $oauthClient = $this->createClient();
         $oauthClient->apiBaseUrl = 'http://api.test.url';
@@ -65,7 +65,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthClient->apiBaseUrl, $oauthClient->getHttpClient()->baseUrl);
     }
 
-    public function testSetupComponents()
+    public function testSetupComponents(): void
     {
         $oauthClient = $this->createClient();
 
@@ -78,7 +78,7 @@ class BaseOAuthTest extends TestCase
         $this->assertEquals($oauthSignatureMethod, $oauthClient->getSignatureMethod(), 'Unable to setup signature method!');
     }
 
-    public function testSetupAccessToken()
+    public function testSetupAccessToken(): void
     {
         $oauthClient = $this->createClient();
 
@@ -100,7 +100,7 @@ class BaseOAuthTest extends TestCase
      * @depends testSetupComponents
      * @depends testSetupAccessToken
      */
-    public function testSetupComponentsByConfig()
+    public function testSetupComponentsByConfig(): void
     {
         $oauthClient = $this->createClient();
 
@@ -116,7 +116,7 @@ class BaseOAuthTest extends TestCase
         ];
         $oauthClient->setSignatureMethod($oauthSignatureMethod);
         $returnedSignatureMethod = $oauthClient->getSignatureMethod();
-        $this->assertEquals($oauthSignatureMethod['class'], get_class($returnedSignatureMethod), 'Unable to setup signature method as config!');
+        $this->assertEquals($oauthSignatureMethod['class'], $returnedSignatureMethod::class, 'Unable to setup signature method as config!');
     }
 
     /**
@@ -126,7 +126,7 @@ class BaseOAuthTest extends TestCase
      * @param array  $params      request params
      * @param string $expectedUrl expected composed URL.
      */
-    public function testComposeUrl($url, array $params, $expectedUrl)
+    public function testComposeUrl($url, array $params, $expectedUrl): void
     {
         $oauthClient = $this->createClient();
         $composedUrl = $this->invoke($oauthClient, 'composeUrl', [$url, $params]);
@@ -142,7 +142,7 @@ class BaseOAuthTest extends TestCase
      * @param $apiSubUrl
      * @param $expectedApiFullUrl
      */
-    public function testApiUrl($apiBaseUrl, $apiSubUrl, $expectedApiFullUrl)
+    public function testApiUrl($apiBaseUrl, $apiSubUrl, $expectedApiFullUrl): void
     {
         $oauthClient = $this->createClient();
 
@@ -165,7 +165,7 @@ class BaseOAuthTest extends TestCase
      * @param $responseStatusCode
      * @param $expectedException
      */
-    public function testSendRequest($responseStatusCode, $expectedException)
+    public function testSendRequest($responseStatusCode, $expectedException): void
     {
         $oauthClient = $this->createClient();
 

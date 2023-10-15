@@ -8,7 +8,7 @@ use yii\authclient\OAuthToken;
 
 class TokenTest extends TestCase
 {
-    public function testCreate()
+    public function testCreate(): void
     {
         $config = [
             'tokenParamKey' => 'test_token_param_key',
@@ -22,7 +22,7 @@ class TokenTest extends TestCase
         $this->assertTrue($oauthToken->createTimestamp > 0, 'Unable to fill create timestamp!');
     }
 
-    public function testCreateWithIncorrectConfigOrder()
+    public function testCreateWithIncorrectConfigOrder(): void
     {
         $config = [
             'token' => 'token',
@@ -37,7 +37,7 @@ class TokenTest extends TestCase
         }
     }
 
-    public function testSetupParams()
+    public function testSetupParams(): void
     {
         $oauthToken = new OAuthToken();
 
@@ -57,7 +57,7 @@ class TokenTest extends TestCase
     /**
      * @depends testSetupParams
      */
-    public function testSetupParamsShortcuts()
+    public function testSetupParamsShortcuts(): void
     {
         $oauthToken = new OAuthToken();
 
@@ -79,10 +79,9 @@ class TokenTest extends TestCase
      *
      * @dataProvider yiiunit\extensions\authclient\Provider\Data::autoFetchExpireDuration
      *
-     * @param array $params
      * @param $expectedExpireDuration
      */
-    public function testAutoFetchExpireDuration(array $params, $expectedExpireDuration)
+    public function testAutoFetchExpireDuration(array $params, $expectedExpireDuration): void
     {
         $oauthToken = new OAuthToken();
         $oauthToken->setParams($params);
@@ -92,7 +91,7 @@ class TokenTest extends TestCase
     /**
      * @depends testSetupParamsShortcuts
      */
-    public function testGetIsExpired()
+    public function testGetIsExpired(): void
     {
         $oauthToken = new OAuthToken();
         $expireDuration = 3600;
@@ -107,7 +106,7 @@ class TokenTest extends TestCase
     /**
      * @depends testGetIsExpired
      */
-    public function testGetIsValid()
+    public function testGetIsValid(): void
     {
         $oauthToken = new OAuthToken();
         $expireDuration = 3600;

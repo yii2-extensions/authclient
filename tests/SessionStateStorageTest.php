@@ -9,7 +9,7 @@ use yiiunit\extensions\authclient\data\Session;
 
 class SessionStateStorageTest extends TestCase
 {
-    public function testSetState()
+    public function testSetState(): void
     {
         $storage = new SessionStateStorage([
             'session' => Session::className(),

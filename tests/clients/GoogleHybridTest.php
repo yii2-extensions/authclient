@@ -31,7 +31,7 @@ class GoogleHybridTest extends TestCase
      * @param $parametersToKeepInReturnUrl
      * @param $expectedReturnUrl
      */
-    public function testDefaultReturnUrl($requestQueryParams, $parametersToKeepInReturnUrl, $expectedReturnUrl)
+    public function testDefaultReturnUrl(array $requestQueryParams, ?array $parametersToKeepInReturnUrl, string $expectedReturnUrl): void
     {
         $module = \Yii::createObject(\yii\base\Module::className(), ['module']);
         $request = \Yii::createObject([

@@ -11,7 +11,7 @@ class CollectionTest extends TestCase
 {
     // Tests :
 
-    public function testSetGet()
+    public function testSetGet(): void
     {
         $collection = new Collection();
 
@@ -26,7 +26,7 @@ class CollectionTest extends TestCase
     /**
      * @depends testSetGet
      */
-    public function testGetProviderById()
+    public function testGetProviderById(): void
     {
         $collection = new Collection();
 
@@ -43,7 +43,7 @@ class CollectionTest extends TestCase
     /**
      * @depends testGetProviderById
      */
-    public function testCreateProvider()
+    public function testCreateProvider(): void
     {
         $collection = new Collection();
 
@@ -64,7 +64,7 @@ class CollectionTest extends TestCase
     /**
      * @depends testSetGet
      */
-    public function testHasProvider()
+    public function testHasProvider(): void
     {
         $collection = new Collection();
 
@@ -83,7 +83,7 @@ class CollectionTest extends TestCase
     /**
      * @depends testCreateProvider
      */
-    public function testSetupHttpClient()
+    public function testSetupHttpClient(): void
     {
         $collection = new Collection();
         $collection->httpClient = new \yii\httpclient\Client();

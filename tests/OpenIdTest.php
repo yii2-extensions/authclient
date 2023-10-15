@@ -23,7 +23,7 @@ class OpenIdTest extends TestCase
 
     // Tests :
 
-    public function testSetGet()
+    public function testSetGet(): void
     {
         $client = new OpenId();
 
@@ -39,7 +39,7 @@ class OpenIdTest extends TestCase
     /**
      * @depends testSetGet
      */
-    public function testGetDefaults()
+    public function testGetDefaults(): void
     {
         $client = new OpenId();
 
@@ -47,7 +47,7 @@ class OpenIdTest extends TestCase
         $this->assertNotEmpty($client->getReturnUrl(), 'Unable to get default return URL!');
     }
 
-    public function testDiscover()
+    public function testDiscover(): never
     {
         $this->markTestSkipped('OpenID is almost dead. There are no famous public servers that support it.');
 
@@ -72,7 +72,7 @@ class OpenIdTest extends TestCase
      * @param string $url2
      * @param bool $expectedResult
      */
-    public function testCompareUrl($url1, $url2, $expectedResult)
+    public function testCompareUrl($url1, $url2, $expectedResult): void
     {
         $client = new OpenId();
         $comparisonResult = $this->invoke($client, 'compareUrl', [$url1, $url2]);

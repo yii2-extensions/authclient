@@ -35,7 +35,7 @@ class OAuth2Test extends TestCase
 
     // Tests :
 
-    public function testBuildAuthUrl()
+    public function testBuildAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $authUrl = 'http://test.auth.url';
@@ -52,7 +52,7 @@ class OAuth2Test extends TestCase
         $this->assertStringContainsString(rawurlencode($returnUrl), $builtAuthUrl, 'No return URL present!');
     }
 
-    public function testPkceCodeChallengeIsPresentInAuthUrl()
+    public function testPkceCodeChallengeIsPresentInAuthUrl(): void
     {
         $oauthClient = $this->createClient();
         $oauthClient->enablePkce = true;

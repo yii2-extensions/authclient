@@ -28,7 +28,7 @@ class GoogleTest extends TestCase
         $this->mockApplication($config, '\yii\web\Application');
     }
 
-    public function testAuthenticateUserJwt()
+    public function testAuthenticateUserJwt(): void
     {
         $params = $this->getParam('google');
         if (empty($params['serviceAccount'])) {
@@ -66,7 +66,7 @@ class GoogleTest extends TestCase
      * @param $parametersToKeepInReturnUrl
      * @param $expectedReturnUrl
      */
-    public function testDefaultReturnUrl($requestQueryParams, $parametersToKeepInReturnUrl, $expectedReturnUrl)
+    public function testDefaultReturnUrl(array $requestQueryParams, ?array $parametersToKeepInReturnUrl, string $expectedReturnUrl): void
     {
         $module = \Yii::createObject(\yii\base\Module::className(), ['module']);
         $request = \Yii::createObject([

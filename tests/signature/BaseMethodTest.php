@@ -26,7 +26,7 @@ class BaseMethodTest extends TestCase
 
     // Tests :
 
-    public function testGenerateSignature()
+    public function testGenerateSignature(): void
     {
         $signatureMethod = $this->createTestSignatureMethod();
 
@@ -41,7 +41,7 @@ class BaseMethodTest extends TestCase
     /**
      * @depends testGenerateSignature
      */
-    public function testVerify()
+    public function testVerify(): void
     {
         $signatureMethod = $this->createTestSignatureMethod();
 

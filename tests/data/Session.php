@@ -12,12 +12,12 @@ class Session extends \yii\web\Session
     /**
      * {@inheritdoc}
      */
-    public function init()
+    public function init(): void
     {
         // blank, override, preventing shutdown function registration
     }
 
-    public function open()
+    public function open(): void
     {
         // blank, override, preventing session start
     }

@@ -33,7 +33,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      *
      * @return mixed  the value of the configuration param
      */
-    public static function getParam($name, $default = null)
+    public static function getParam($name, mixed $default = null)
     {
         if (static::$params === null) {
             static::$params = require(__DIR__ . '/data/config.php');
@@ -102,7 +102,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected function invoke($object, $method, array $args = [])
     {
-        $classReflection = new \ReflectionClass(get_class($object));
+        $classReflection = new \ReflectionClass($object::class);
         $methodReflection = $classReflection->getMethod($method);
         $methodReflection->setAccessible(true);
         $result = $methodReflection->invokeArgs($object, $args);
