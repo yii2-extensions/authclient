@@ -22,7 +22,7 @@
         "web-token/jwt-framework": "^3.2",
         "web-token/jwt-key-mgmt": "^3.2",
         "yiisoft/yii2": "^2.2",
-        "yii2-extensions/httpclient": "dev-fix-default-value"
+        "yii2-extensions/httpclient": "dev-main"
     },
     "require-dev": {
         "maglnet/composer-require-checker": "^4.6",
