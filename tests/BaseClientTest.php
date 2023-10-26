@@ -84,7 +84,7 @@ class BaseClientTest extends TestCase
     }
 
     /**
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::normalizeUserAttributes
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::normalizeUserAttributes
      *
      * @depends testSetGet
      *

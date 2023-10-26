@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace yiiunit\extensions\authclient\Provider;
+namespace yiiunit\extensions\authclient\provider;
 
 final class Data
 {

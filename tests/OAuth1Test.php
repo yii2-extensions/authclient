@@ -127,7 +127,7 @@ class OAuth1Test extends TestCase
     }
 
     /**
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::composeAuthorizationHeader
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::composeAuthorizationHeader
      *
      * @param string $realm                       authorization realm.
      * @param array  $params                      request params.

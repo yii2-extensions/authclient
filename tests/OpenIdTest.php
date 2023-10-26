@@ -66,7 +66,7 @@ class OpenIdTest extends TestCase
     /**
      * @see https://github.com/yiisoft/yii2/issues/3633
      *
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::compareUrl
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::compareUrl
      *
      * @param string $url1
      * @param string $url2
