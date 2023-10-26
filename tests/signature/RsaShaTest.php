@@ -62,7 +62,7 @@ IyvuagHJR379p4dePwJBAMCkYSATGdhYbeDfySWUro5K0QAvBNj8FuNJQ4rqUxz8
     }
 
     /**
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::getName
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::getName
      *
      * @param $algorithm
      * @param $expectedName

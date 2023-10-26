@@ -77,7 +77,7 @@ class TokenTest extends TestCase
     /**
      * @depends testSetupParamsShortcuts
      *
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::autoFetchExpireDuration
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::autoFetchExpireDuration
      *
      * @param $expectedExpireDuration
      */

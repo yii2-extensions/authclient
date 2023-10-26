@@ -120,7 +120,7 @@ class BaseOAuthTest extends TestCase
     }
 
     /**
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::composeUrl
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::composeUrl
      *
      * @param string $url         request URL.
      * @param array  $params      request params
@@ -136,7 +136,7 @@ class BaseOAuthTest extends TestCase
     /**
      * @depends testSetupAccessToken
      *
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::apiUrl
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::apiUrl
      *
      * @param $apiBaseUrl
      * @param $apiSubUrl
@@ -160,7 +160,7 @@ class BaseOAuthTest extends TestCase
     }
 
     /**
-     * @dataProvider yiiunit\extensions\authclient\Provider\Data::sendRequest
+     * @dataProvider yiiunit\extensions\authclient\provider\Data::sendRequest
      *
      * @param $responseStatusCode
      * @param $expectedException
